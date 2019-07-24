@@ -10,42 +10,30 @@ import java.util.*;
  */
 public class Solution {
     public String mostCommonWord(String paragraph, String[] banned) {
-        if (paragraph.indexOf("!") > 0) {
-            paragraph = paragraph.replace("!","");
-        }
-        if (paragraph.indexOf("?") > 0) {
-            paragraph = paragraph.replace("?","");
-        }
-        if (paragraph.indexOf("'") > 0) {
-            paragraph = paragraph.replace("'","");
-        }
-        if (paragraph.indexOf(",") > 0) {
-            paragraph = paragraph.replace(",","");
-        }
-        if (paragraph.indexOf(";") > 0) {
-            paragraph = paragraph.replace(";","");
-        }
-        if (paragraph.indexOf(".") > 0) {
-            paragraph = paragraph.replace(".","");
-        }
-        String[] strings = paragraph.split(" ");
-        HashMap<String,Integer> map = new HashMap<>();
-        int len = strings.length;
-        for (int i=0; i<len; i++) {
-            if (map.keySet().contains(strings[i].toLowerCase())) {
-                map.put(strings[i].toLowerCase(),map.get(strings[i].toLowerCase()) + 1);
-            } else {
-              map.put(strings[i].toLowerCase(),1);
-            }
-        }
+        HashSet<String> bannedSet = new HashSet<>();
+        HashMap<String, Integer> wordsMap = new HashMap<>();
+        String mcw = "";
+        int mcwCount = -1;
 
-        for (int i=0; i<banned.length; i++) {
-            if (map.keySet().contains(banned[i].toLowerCase())) {
-                map.remove(banned[i].toLowerCase());
+        // filter spaces and punctuation
+        String[] wordsArr = paragraph.toLowerCase().split(" |!|\\?|'|,|;|\\.");
+
+        // put banned words into hash set
+        for(String s: banned)
+            bannedSet.add(s);
+
+        // add and count non-banned words into wordsMap
+        for(String s: wordsArr) {
+            if(!bannedSet.contains(s) && !s.equals("")) {
+                wordsMap.put(s, wordsMap.getOrDefault(s, 0) + 1);
+                int count = wordsMap.get(s);
+                // keep tracking the most common word
+                if(count > mcwCount) {
+                    mcw = s;
+                    mcwCount = count;
+                }
             }
         }
-        List<Map.Entry<String, Integer>> list = new ArrayList<>(map.entrySet());
-        list.sort(Comparator.comparingInt(Map.Entry::getValue));
-        return list.get(list.size()-1).getKey();
+        return mcw;
     }
 }
