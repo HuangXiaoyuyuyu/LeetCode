@@ -4,7 +4,8 @@ package LeetCode_0824_山羊拉丁文;
  * @Author OliverYu
  * @Date 2019/8/3 23:15
  * @Email 253757635@qq.com
- * @Description TODO
+ * @Description 个人觉得比较简单 switch+StringBuilder即可
+ *              在拼接字符串的时候，建议多用StringBuilder 效率高。
  *
  * 给定一个由空格分割单词的句子 S。每个单词只包含大写或小写字母。
  * 我们要将句子转换为 “Goat Latin”（一种类似于 猪拉丁文 - Pig Latin 的虚构语言）。
@@ -36,38 +37,36 @@ package LeetCode_0824_山羊拉丁文;
 
 public class Solution {
     public String toGoatLatin(String S) {
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         StringBuilder aChange = new StringBuilder();
-        StringBuilder returnBuilder = new StringBuilder();
-        String[] strings = S.split(" ");
-        for (int i = 0; i < strings.length; i++) {
-            aChange = aChange.append("a");
-            if (isStartWithVowel(strings[i])) {
-                stringBuilder = stringBuilder.append(strings[i]).append("ma").append(aChange).append(" ");
-            } else {
-                stringBuilder = strings[i].length() == 1 ? stringBuilder.append(strings[i]).append("ma").append(aChange).append(" ") : stringBuilder.append(strings[i].substring(1)).append(strings[i].substring(0, 1)).append("ma").append(aChange).append(" ");
+        for(String s : S.split(" ")){
+            //1.判断元音还是辅音
+            switch(s.charAt(0)){
+                case 'a':
+                case 'e':
+                case 'i':
+                case 'o':
+                case 'u':
+                case 'A':
+                case 'E':
+                case 'I':
+                case 'O':
+                case 'U':
+                    sb.append(s);
+                    break;
+                default:
+                    sb.append(s.substring(1) + s.charAt(0));
             }
-            returnBuilder = returnBuilder.append(stringBuilder);
-            stringBuilder.delete(0,stringBuilder.length());
+            //2.添加"ma"、"a"、空格
+            sb.append("ma");
+            aChange.append("a");
+            sb.append(aChange);
+            sb.append(" ");
         }
-        return returnBuilder.toString().trim();
-    }
-
-
-    private boolean isStartWithVowel(String s) {
-        if (s.charAt(0) == 'a' || s.charAt(0) == 'A' ||
-                s.charAt(0) == 'e' || s.charAt(0) == 'E' ||
-                s.charAt(0) == 'i' || s.charAt(0) == 'I' ||
-                s.charAt(0) == 'o' || s.charAt(0) == 'O' ||
-                s.charAt(0) == 'u' || s.charAt(0) == 'U') {
-            return true;
+        //3.删除最后一个空格
+        if(sb.length() > 0){
+            sb.deleteCharAt(sb.length()-1);
         }
-        return false;
-    }
-
-    public static void main(String[] args) {
-        String s = "UXc J K";
-        System.out.println(new Solution().toGoatLatin(s));
-
+        return sb.toString();
     }
 }
