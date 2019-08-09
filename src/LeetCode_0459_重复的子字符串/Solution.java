@@ -26,23 +26,22 @@ package LeetCode_0459_重复的子字符串;
 public class Solution {
     public boolean repeatedSubstringPattern(String s) {
         int length = s.length();
-        for (int i = 0; i < length; i++) {
-            // 至少重复一次
-            int times = length / (i + 1);
-            if (times == 1) {
-                times = 2;
-            }
-            // 如果重复后的长度明显超过字符串总的长度无需在处理
-            if ((i + 1) * times != length) {
+        //假设周期为i，由于至少重复一次，所以周期最大为(length / 2)
+        for (int i = 1; i <= length / 2; i++) {
+            // 重复的次数
+            int times = length / i;
+            // 如果重复后的长度不等于总的长度无需在处理
+            if (i * times != length) {
                 continue;
             }
             // 如果当前字符串跟第一个字符串不一致一定不是重复子串
             // 借助前面的判断避开下标越界
-            if (s.charAt(i + 1) != s.charAt(0)) {
+            if (s.charAt(i) != s.charAt(0)) {
                 continue;
             }
+
             StringBuilder builder = new StringBuilder();
-            String sub = s.substring(0, i + 1);
+            String sub = s.substring(0, i);
             while (times-- > 0) {
                 builder.append(sub);
             }
@@ -50,7 +49,6 @@ public class Solution {
                 return true;
             }
         }
-
         return false;
     }
 }
