@@ -4,7 +4,7 @@ package LeetCode_0075_颜色分类;
  * @Author OliverYu
  * @Date 2019/9/9 22:38
  * @Email 253757635@qq.com
- * @Description TODO
+ * @Description 荷兰国旗问题
  *
  * 给定一个包含红色、白色和蓝色，一共 n 个元素的数组，
  * 原地对它们进行排序，使得相同颜色的元素相邻，并按照红色、白色、蓝色顺序排列。
@@ -44,13 +44,5 @@ public class Solution {
         int temp = nums[i];
         nums[i] = nums[j];
         nums[j] = temp;
-    }
-
-    public static void main(String[] args) {
-        int[] nums = {1,2,0};
-        new Solution().sortColors(nums);
-        for (Integer i : nums) {
-            System.out.print(i + " ");
-        }
     }
 }
