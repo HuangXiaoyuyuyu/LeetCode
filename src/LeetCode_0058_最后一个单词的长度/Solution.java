@@ -12,7 +12,7 @@ public class Solution {
             return 0;
         }
         //方法一：字符串分割，取最后一个元素求长度。
-        //String[] strings = s.split(" ");
+        //String[] strings = s.trim().split(" ");
         //return strings[strings.length - 1].length();
 
         //方法二：删去最后的空格，截取最后一个空格到最后的长度。
